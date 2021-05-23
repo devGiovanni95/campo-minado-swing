@@ -2,7 +2,6 @@ package br.com.giovanni.cm.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class Campo {
 
@@ -23,11 +22,11 @@ public class Campo {
         this.coluna = coluna;
     }
 
-    public void registrarObservador(CampoObservador observador){
+    public void registrarObservador(CampoObservador observador) {
         observadores.add(observador);
     }
 
-    private void notificarObservadores(CampoEvento evento){
+    private void notificarObservadores(CampoEvento evento) {
         observadores.stream()
                 .forEach(observador -> observador.eventoOcorreu(this, evento));
     }
@@ -53,25 +52,25 @@ public class Campo {
 
     }
 
-    void alternarMarcacao() {
+    public void alternarMarcacao() {
         if (!aberto) {
             marcado = !marcado;
 
-            if (marcado){
+            if (marcado) {
                 notificarObservadores(CampoEvento.MARCAR);
-            }else {
+            } else {
                 notificarObservadores(CampoEvento.DESMARCAR);
             }
         }
     }
 
-    boolean abrir() {
+    public boolean abrir() {
         if (!aberto && !marcado) {
             aberto = true;
 
             if (minado) {
-               notificarObservadores(CampoEvento.EXPLODIR);
-               return  true;
+                notificarObservadores(CampoEvento.EXPLODIR);
+                return true;
             }
             setAberto(true);
 
@@ -85,7 +84,7 @@ public class Campo {
         }
     }
 
-    boolean vizinhancaSegura() {
+    public boolean vizinhancaSegura() {
         return vizinhos.stream().noneMatch(v -> v.minado);
     }
 
@@ -132,8 +131,15 @@ public class Campo {
         return desvendado || protegido;
     }
 
-    long minasNasVizinhanca() {
-        return vizinhos.stream().filter(v -> v.minado).count();
+//    public long minasNasVizinhanca() {
+//        return vizinhos.stream().filter(v -> v.minado).count();
+//    }
+//
+//a classe swicth nao aceita numeros do tipo long por isso temos que alterar
+// o tipo do metodo para INT e fazer um cast para fazer a conversão implicita
+// do tipo dos dados
+    public int minasNasVizinhanca() {
+        return (int)vizinhos.stream().filter(v -> v.minado).count();
     }
 
     void reiniciar() {
