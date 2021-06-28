@@ -53,7 +53,7 @@ public class Campo {
 
     }
 
-    void alternarMarcacao() {
+    public void alternarMarcacao() {
         if (!aberto) {
             marcado = !marcado;
 
@@ -65,7 +65,7 @@ public class Campo {
         }
     }
 
-    boolean abrir() {
+    public boolean abrir() {
         if (!aberto && !marcado) {
             aberto = true;
 
